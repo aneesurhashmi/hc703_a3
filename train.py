@@ -11,8 +11,8 @@ import monai
 from monai.losses import DiceFocalLoss
 import segmentation_models_pytorch as smp
 
-# 10.127.30.128  hca3  focal loss + dice loss
-# 10.127.30.125  hca3  dice loss only
+
+torch.manual_seed(0)
 
 def main(args):
     # Load the dataset
@@ -133,7 +133,7 @@ def main(args):
                 images = images.to(args.device)
                 true_masks = true_masks.to(args.device)
 
-                pred_masks = sig(model(images))
+                pred_masks = sig(model(images)).round()
                 
                 pred_cls1= pred_masks[:, 0, :, :]
                 pred_cls2 = pred_masks[:, 1, :, :]
